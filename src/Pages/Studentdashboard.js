@@ -8,9 +8,8 @@ import { db } from '../firebaseconfig';
 
 
 function Studentdashboard() {
-    const [courses, setCourse] = useState([])
-
-    console.log(courses)
+    const [courses, setCourse] = useState([]);
+    const [docID,setdocID]=useState("");
 
     useEffect(() => {
         // fetch the courses
@@ -20,21 +19,22 @@ function Studentdashboard() {
           querySnapshot.forEach((doc) => {
             courseItem.push({ id: doc.id, ...doc.data() });
             setCourse([...courseItem]);
+            querySnapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}))
+           // console.log(doc.id)
+            setdocID(doc.id);
           });
         };
     
         fetchData();
       }, []);
 
+      function courseID(){
+        
+       console.log(docID)
+      }
+
     // useEffect(() => {
 
-    //     // CourseName: cName,
-    //     // Coursedesc: courseD,
-    //     // Price: priceAmount,
-    //     // UserEmail: useremail,
-    //     // InName:inName,
-    //     // phone:phoneD,
-    //     // userID:user
 
 
     //     const q = query(collection(db, "courses"));
@@ -85,19 +85,19 @@ function Studentdashboard() {
             <div className='main'>
 
                 <div className='container'>
-                    {courses.map((course) => {
-                        return (
+                    {courses.map((course) => (
+                        
                             <div style={{ backgroundColor: "black", color: "white", marginBottom: "14px" }} >
-                                <div  key={Math.random()}>
-                                    <h3>
+                                <div  key={Math.random()} onClick={courseID}>
+                                    <h3 >
                                         {course.coureName}
                                     </h3>
                                     <hr></hr>
-                                    <p></p>
+                                    <p>{course.Coursedesc}</p>
                                 </div>
                             </div>
-                        )
-                    })}
+                        
+                    ))}
 
                 </div>
 
